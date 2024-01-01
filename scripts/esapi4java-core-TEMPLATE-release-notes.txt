@@ -1,0 +1,154 @@
+@@@@ IMPORTANT: Be sure to 1) save in DOS text format, and 2) Delete this line and others starting with @@@@
+@@@@             Edit this file in vim with       :set tw=0
+@@@@            Meant to be used with   scripts/newReleaseNotes.sh and the 'vars.*' scripts there.
+@@@@    There are specific references to ESAPI 2.5.0.0 and other old releases in this file. Do NOT change the version #s. They are there for a reason.
+Release notes for ESAPI ${VERSION}
+    Release date: ${YYYY_MM_DD_RELEASE_DATE}
+    Project leaders:
+        -Kevin W. Wall <kevin.w.wall@gmail.com>
+        -Matt Seil <matt.seil@owasp.org>
+
+Previous release: ESAPI ${PREV_VERSION}, ${PREV_RELEASE_DATE}
+
+
+Executive Summary: Important Things to Note for this Release
+------------------------------------------------------------
+@@@@ View previous release notes to see examples of what to put here. This is typical. YMMV.
+@@@@ Obviously, you should summarize any major changes / new features here.
+This is a patch release with the primary intent of updating some dependencies, some with known vulnerabilities. Details follow.
+@@@@ Provide a sentence or to
+
+Notes if you are not updating from the immediate previous release. release ${PREV_VERSION}:
+    * You need to read through the series of release notes FIRST, going in order.
+    * For example, if you were updating from an older ESAPI release (say, 2.3.0.0), you should go back and FIRST read all the subsequent release notes in turn. For instance, if you are currently on release 2.3.0.0 and upgrading to (say) release 2.x.y.z, you should MINIMALLY read the sections "Changes Requiring Special Attention" in each of the subsequent release notes. So, going from release 2.3.0.0 to 2.x.y.z, you should in turn, read:
+
+    esapi4java-core-2.4.0.0-release-notes.txt
+    esapi4java-core-2.5.0.0-release-notes.txt
+    esapi4java-core-2.5.1.0-release-notes.txt
+    esapi4java-core-2.5.2.0-release-notes.txt
+    ...etc., up through the current set of release notes...
+    esapi4java-core-2.x.y.z-release-notes.txt
+
+in that order. YOU HAVE BEEN WARNED!!! (These release notes are too large to put all this in a given document; very few read them thoroughly as it is.)
+
+If your SCA tool is reporting any CVE from a direct or transitive dependency in ESAPI, before reporting it as an GitHub issue, please make sure that you review the vulnerability analysis written up in https://github.com/ESAPI/esapi-java-legacy/blob/develop/Vulnerability-Summary.md. Please email us or contact us in our GitHub Discussions page if you have questions about this. See also the SECURITY.md file to report any security issues with ESAPI.
+
+You are encouraged to review the vulnerability analysis written up in https://github.com/ESAPI/esapi-java-legacy/blob/develop/Vulnerability-Summary.md and email us or contact us in our GitHub Discussions page if you have questions.
+
+
+=================================================================================================================
+
+Basic ESAPI facts
+-----------------
+
+ESAPI ${PREV_VERSION} release:
+@@@@ Look up the figures from the previous release notes.
+    #### Java source files
+    #### JUnit tests in #### Java test files
+
+ESAPI ${VERSION} release:
+@@@@ Count them and run 'mvn test' to get the # of tests.
+    #### Java source files
+    #### JUnit tests in #### Java source files
+
+XXX GitHub Issues closed in this release, including those we've decided not to fix (marked 'wontfix' and 'falsepositive').
+(Reference: https://github.com/ESAPI/esapi-java-legacy/issues?q=is%3Aissue+state%3Aclosed+updated%3A%3E%3D${PREV_RELEASE_DATE})
+
+Issue #         GitHub Issue Title
+----------------------------------------------------------------------------------------------
+@@@@ Capture issue #s and 1 line desription from above GitHub url
+@@@@ Insert here and massage until it looks pretty. Recommend alignment with spaces instead of tabs.
+
+-----------------------------------------------------------------------------
+
+        Changes Requiring Special Attention
+
+-----------------------------------------------------------------------------
+@@@@ NOTE any special notes here. Probably leave this one, but I would suggest noting additions BEFORE this.
+
+Important JDK Support Announcement
+* ESAPI 2.3.0.0 was the last Java release to support Java 7. ESAPI 2.4.0 requires using Java 8 or later. See the ESAPI 2.4.0.0 release notes (https://github.com/ESAPI/esapi-java-legacy/blob/develop/documentation/esapi4java-core-2.4.0.0-release-notes.txt) for details as to the reason.
+    - This means if your project requires Java 7, you must use ESAPI 2.3.0.0 or earlier.
+
+Important ESAPI Logging Changes
+
+* Since ESAPI 2.5.0.0, support for logging directly via Log4J 1 has been removed. (This was two years after it haveing first been deprecated.) Thus, you only choice of ESAPI logging are
+    - java.util.logging (JUL), which as been the default since ESAPI 2.2.1.0.
+        * Set ESAPI.Logger=org.owasp.esapi.logging.java.JavaLogFactory in your ESAPI.properties file.
+    - SLF4J (which your choice of supported SLF4J logging implemmentation)
+        * Set ESAPI.Logger=org.owasp.esapi.logging.slf4j.Slf4JLogFactory in your ESAPI.properties file.
+* Logger configuration notes - If you are migrating from prior to ESAPI 2.2.1.1, you will need to update your ESAPI.properties file as logging-related configuration as per the ESAPI 2.2.1.1 release notes, which may be found at:
+    https://github.com/ESAPI/esapi-java-legacy/blob/develop/documentation/esapi4java-core-2.2.1.1-release-notes.txt#L39-L78
+
+If you use ESAPI 2.5.0.0 or later, you will get an ClassNotFoundException as the root cause if you still have your ESAPI.Logger property set to use Log4J because the org.owasp.esapi.logger.log4j.Log4JFactory class has been completely removed from the ESAPI jar.  If you are dead set on continuing to use Log4J 1, you ought to be able to do so via SLF4J. The set up for Log4J 1 (which has not be tested), should be similar to configure ESAPI to use SLF4J with Log4J 2 as described here:
+    https://github.com/ESAPI/esapi-java-legacy/wiki/Using-ESAPI-with-SLF4J#slf4j-using-log4j-2x
+
+-----------------------------------------------------------------------------
+
+        Remaining Known Issues / Problems
+
+-----------------------------------------------------------------------------
+None known, other than the remaining open issues on GitHub.
+
+-----------------------------------------------------------------------------
+
+        Other changes in this release, some of which not tracked via GitHub issues
+
+-----------------------------------------------------------------------------
+
+* Minor updates to README.md file with respect to version information.
+
+-----------------------------------------------------------------------------
+
+Developer Activity Report (Changes between release ${PREV_VERSION} and ${VERSION}, i.e., between ${PREV_RELEASE_DATE} and ${YYYY_MM_DD_RELEASE_DATE})
+Generated manually (this time) -- all errors are the fault of kwwall and his inability to do simple arithmetic.
+
+@@@@
+@@@@ This section needs to be manually updated.
+@@@@
+Developer       Total       Total Number        # Merged
+(GitHub ID)     commits   of Files Changed        PRs
+========================================================
+jeremiahjstacey  8              6               1
+dependabot       1              1               1
+kwwall           7              8               0
+========================================================
+                                    Total PRs:  2
+
+-----------------------------------------------------------------------------
+
+CHANGELOG:      Create your own. May I suggest:
+
+        git log --stat --since=${PREV_RELEASE_DATE} --reverse --pretty=medium
+
+    which will show all the commits since just after the previous (${PREV_VERSION}) release.
+
+    Alternately, you can download the most recent ESAPI source and run
+
+        mvn site
+
+    which will create a CHANGELOG file named 'target/site/changelog.html'
+
+
+-----------------------------------------------------------------------------
+
+Direct and Transitive Runtime and Test Dependencies:
+
+        $ mvn -B dependency:tree
+@@@@ Include output from 'mvn -B dependency:tree' here
+@@@@ RECOMMENDATION: Run the above only after ensuring you are using the latest 
+@@@@                 plugins and dependencies so you only have to do this once.
+@@@@                 Check via:
+@@@@                    mvn -U versions:display-plugin-updates
+@@@@                    mvn -U versions:display-dependency-updates
+@@@@                    mvn -U versions:display-property-updates
+
+-----------------------------------------------------------------------------
+
+@@@@ Review these notes, especially the reference to the AntiSamy version information.
+Acknowledgments:
+    Another hat tip to Dave Wichers and the AntiSamy crew for promptly releasing AntiSamy 1.7.0.  And thanks to Matt Seil, Jeremiah Stacey, and all the ESAPI users who make this worthwhile. This is for you.
+
+A special thanks to the ESAPI community from the ESAPI project co-leaders:
+    Kevin W. Wall (kwwall) <== The irresponsible party for these release notes!
+    Matt Seil (xeno6696)
